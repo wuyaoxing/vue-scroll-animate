@@ -8,8 +8,8 @@
  */
 
 (function(){
-  var Vue
-  var isVueLoaded = true
+  let Vue
+  let isVueLoaded = true
 
   if (typeof require === 'undefined') {
     Vue = Window.Vue
@@ -22,7 +22,7 @@
     console.warn('Vue is not loaded yet. Please make sure it is loaded before installing vue-scroll-animate.')
   }
 
-  var Scroll = {}
+  let Scroll = {}
   Scroll.install = function (Vue, options) {
 
     // requestAnimationFrame
@@ -93,6 +93,7 @@
       const getTag = document.getElementById(tagName) || document.getElementsByClassName(tagName)[0] || document.body
       const nowScrollTop = getTag.scrollTop
       const nowScrollLeft = getTag.scrollLeft
+      const GET_SPEED = speed || 20
       let flag = "run"
       //处理负数时内存泄漏
       // num < 0 ? num = 0 : num
@@ -104,13 +105,13 @@
         if (flag === 'run') {
           if (type === "top") {
             if (nowScrollTop > num){
-              top -= speed || 20
+              top -= GET_SPEED
               if (top <= num) {
                 top = num
                 flag = 'stop'
               }
             } else if(nowScrollTop < num){
-              top += speed || 20
+              top += GET_SPEED
               if (top >= num) {
                 top = num
                 flag = 'stop'
@@ -120,13 +121,13 @@
             }
           } else if (type === "left") {
             if (nowScrollLeft > num) {
-              left -= speed || 20
+              left -= GET_SPEED
               if (left <= num) {
                 left = num
                 flag = 'stop'
               }
             } else if (nowScrollLeft < num) {
-              left += speed || 20
+              left += GET_SPEED
               if (left >= num) {
                 left = num
                 flag = 'stop'
