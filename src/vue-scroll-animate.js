@@ -19,38 +19,38 @@
 
   if (!Vue) {
     isVueLoaded = false
-    console.warn('Vue is not loaded yet. Please make sure it is loaded before installing vue-scroll.')
+    console.warn('Vue is not loaded yet. Please make sure it is loaded before installing vue-scroll-animate.')
   }
 
   var Scroll = {}
   Scroll.install = function (Vue, options) {
 
     // requestAnimationFrame
-    //   (function() {
-    //     let lastTime = 0;
-    //     const vendors = ['webkit', 'moz'];
-    //     for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    //       window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    //       window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||    // name has changed in Webkit
-    //         window[vendors[x] + 'CancelRequestAnimationFrame'];
-    //     }
-    //     if (!window.requestAnimationFrame) {
-    //       window.requestAnimationFrame = function (callback, element) {
-    //         const currTime = new Date().getTime();
-    //         let timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
-    //         let id = window.setTimeout(function () {
-    //           callback(currTime + timeToCall);
-    //         }, timeToCall);
-    //         lastTime = currTime + timeToCall;
-    //         return id;
-    //       };
-    //     }
-    //     if (!window.cancelAnimationFrame) {
-    //       window.cancelAnimationFrame = function (id) {
-    //         clearTimeout(id);
-    //       };
-    //     }
-    //   }());
+    (function() {
+      let lastTime = 0
+      const vendors = ['webkit', 'moz']
+      for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame']
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||    // name has changed in Webkit
+          window[vendors[x] + 'CancelRequestAnimationFrame']
+      }
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function (callback, element) {
+          const currTime = new Date().getTime()
+          let timeToCall = Math.max(0, 16.7 - (currTime - lastTime))
+          let id = window.setTimeout(function () {
+            callback(currTime + timeToCall)
+          }, timeToCall)
+          lastTime = currTime + timeToCall
+          return id
+        }
+      }
+      if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function (id) {
+          clearTimeout(id)
+        }
+      }
+    }())
 
     // (function() {
     //   var lastTime = 0;
@@ -78,18 +78,18 @@
     // }());
 
     // requestAnimFrame
-    window.requestAnimFrame = (function(){
-      return  window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        window.oRequestAnimationFrame      ||
-        window.msRequestAnimationFrame     ||
-        function(/* function */ callback, /* DOMElement */ element){
-          window.setTimeout(callback, 1000 / 60);
-        }
-    })()
+    // window.requestAnimFrame = (function(){
+    //   return  window.requestAnimationFrame       ||
+    //     window.webkitRequestAnimationFrame ||
+    //     window.mozRequestAnimationFrame    ||
+    //     window.oRequestAnimationFrame      ||
+    //     window.msRequestAnimationFrame     ||
+    //     function(/* function */ callback, /* DOMElement */ element){
+    //       window.setTimeout(callback, 1000 / 60);
+    //     }
+    // })()
 
-    Vue.prototype.$scroll = (num, type, tagName) => {
+    Vue.prototype.$scroll = (num, type, tagName, speed) => {
       const getTag = document.getElementById(tagName) || document.getElementsByClassName(tagName)[0] || document.body
       const nowScrollTop = getTag.scrollTop
       const nowScrollLeft = getTag.scrollLeft
@@ -104,13 +104,13 @@
         if (flag === 'run') {
           if (type === "top") {
             if (nowScrollTop > num){
-              top -= 20
+              top -= speed || 20
               if (top <= num) {
                 top = num
                 flag = 'stop'
               }
             } else if(nowScrollTop < num){
-              top += 20
+              top += speed || 20
               if (top >= num) {
                 top = num
                 flag = 'stop'
@@ -120,13 +120,13 @@
             }
           } else if (type === "left") {
             if (nowScrollLeft > num) {
-              left -= 80
+              left -= speed || 20
               if (left <= num) {
                 left = num
                 flag = 'stop'
               }
             } else if (nowScrollLeft < num) {
-              left += 60
+              left += speed || 20
               if (left >= num) {
                 left = num
                 flag = 'stop'
