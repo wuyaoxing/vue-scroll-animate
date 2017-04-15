@@ -90,6 +90,49 @@
     // })()
 
     Vue.prototype.$scroll = (num, type, tagName, speed) => {
+      // new
+      // 缓动动画
+      //使用说明
+      // 该动type: scrollTop/scrollLeft，speed改为步阶，其他和原来一致
+      //完善组件，使用ES6
+      if(type !== "scrollTop" && type !== "scrollLeft") {
+        console.error('type：scrollTop/scrollLeft')
+        return
+      }
+
+      const getTag = document.getElementById(tagName) || document.getElementsByClassName(tagName)[0] || document.body
+      
+      let scrollTop = getTag.scrollTop
+      let scrollLeft = getTag.scrollLeft
+      let start
+      let end = num
+      let rate = speed
+      const _end = end
+
+      start = eval(type)
+
+      if (start === end || typeof start != 'number') {
+        return
+      }
+
+      end = end || 0
+      rate = rate || 2
+
+      const step = function() {
+
+        console.log(start, end, rate)
+        start = start + (end - start) / rate;
+        if (Math.abs(start - _end) < 1) {
+          console.log('end')
+          type === 'scrollTop' ? getTag.scrollTop = end : getTag.scrollLeft = end
+          return
+        }
+        type === 'scrollTop' ? getTag.scrollTop = start : getTag.scrollLeft = start
+        requestAnimationFrame(step)
+      }
+      step()
+      
+      // old
       const getTag = document.getElementById(tagName) || document.getElementsByClassName(tagName)[0] || document.body
       const nowScrollTop = getTag.scrollTop
       const nowScrollLeft = getTag.scrollLeft
