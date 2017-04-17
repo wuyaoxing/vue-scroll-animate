@@ -32,10 +32,11 @@ import vueScroll from 'vue-scroll-animate.js'
 Vue.use(vueScroll)
 ```
 在组件中通过调用 **this.$scroll(num, type, tagName, speed)** 传入相应的值即可
+- this.$scroll(num, type, tagName, speed）
 - num 滚动条位置(将要滚动到的)
-- type 只能是top/left
-- tagName DOM对象，可为id、class，默认为body
-- speed 滚动条移动速度，默认为20，当传入speed时，tagName不能省略
+- type scrollTop/scrollLeft
+- tagName DOM对象，可为id、class、body
+- speed 步阶默认为2，可传入步阶控制速度
 
 具体请参考Demo
 
