@@ -24,16 +24,16 @@
     components: {},
     methods: {
       scrollByBody () {
-        this.$scroll(0, 'top', null, 80)
+        this.$scroll(0, 'scrollTop', 'body', 4)
       },
       scrollById () {
-        this.$scroll(0, 'top', 'idexample')
+        this.$scroll(0, 'scrollTop', 'idexample', 8)
       },
       scrollByClass () {
-        this.$scroll(0, 'top', 'classexample')
+        this.$scroll(0, 'scrollTop', 'classexample', 2)
       },
       scrollByBodyLeft () {
-        this.$scroll(0, 'left')
+        this.$scroll(0, 'scrollLeft', null, 6)
       }
     }
   }
